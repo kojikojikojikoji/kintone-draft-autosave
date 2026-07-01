@@ -71,4 +71,75 @@ describe("mergeDraftIntoRecord", () => {
     const result = mergeDraftIntoRecord(current, draft, form);
     expect(result.restoredLookups).toEqual(["customer"]);
   });
+
+  it("skips subtable inner fields that were removed or type-changed", () => {
+    const form: FormFields = {
+      items: {
+        type: "SUBTABLE",
+        code: "items",
+        fields: {
+          name: { type: "SINGLE_LINE_TEXT", code: "name" },
+          qty: { type: "NUMBER", code: "qty" },
+        },
+      },
+    };
+    const current: RecordData = { items: { type: "SUBTABLE", value: [] } };
+    const draft: RecordData = {
+      items: {
+        type: "SUBTABLE",
+        value: [
+          {
+            id: "1",
+            value: {
+              name: { type: "SINGLE_LINE_TEXT", value: "a" },
+              qty: { type: "SINGLE_LINE_TEXT", value: "oops" }, // type changed
+              gone: { type: "SINGLE_LINE_TEXT", value: "x" }, // removed
+            },
+          },
+        ] as SubtableRow[],
+      },
+    };
+    const result = mergeDraftIntoRecord(current, draft, form);
+    const rows = result.record.items.value as SubtableRow[];
+    expect(rows[0].value).toEqual({ name: { type: "SINGLE_LINE_TEXT", value: "a" } });
+    expect(result.skipped.sort()).toEqual(["items.gone", "items.qty"]);
+  });
+
+  it("drops non-savable and lookup copy-target fields inside subtable rows", () => {
+    const form: FormFields = {
+      lk: {
+        type: "SINGLE_LINE_TEXT",
+        code: "lk",
+        lookup: { fieldMappings: [{ field: "copied" }] },
+      },
+      items: {
+        type: "SUBTABLE",
+        code: "items",
+        fields: {
+          file: { type: "FILE", code: "file" },
+          copied: { type: "SINGLE_LINE_TEXT", code: "copied" },
+          name: { type: "SINGLE_LINE_TEXT", code: "name" },
+        },
+      },
+    };
+    const current: RecordData = { items: { type: "SUBTABLE", value: [] } };
+    const draft: RecordData = {
+      items: {
+        type: "SUBTABLE",
+        value: [
+          {
+            value: {
+              file: { type: "FILE", value: [] },
+              copied: { type: "SINGLE_LINE_TEXT", value: "from lookup" },
+              name: { type: "SINGLE_LINE_TEXT", value: "keep" },
+            },
+          },
+        ] as SubtableRow[],
+      },
+    };
+    const result = mergeDraftIntoRecord(current, draft, form);
+    const rows = result.record.items.value as SubtableRow[];
+    expect(rows[0].value).toEqual({ name: { type: "SINGLE_LINE_TEXT", value: "keep" } });
+    expect(result.skipped).toEqual([]);
+  });
 });

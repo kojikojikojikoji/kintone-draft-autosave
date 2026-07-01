@@ -20,6 +20,24 @@ export function buildSnapshot(record: RecordData, formFields: FormFields): Recor
     if (copyTargets.has(code)) {
       continue;
     }
+    if (field.type === "SUBTABLE" && Array.isArray(field.value)) {
+      // Apply the same filter inside rows: attachments, calculated fields and
+      // lookup copy-targets nested in a table must not enter the draft either.
+      snapshot[code] = {
+        type: "SUBTABLE",
+        value: (field.value as SubtableRow[]).map((row) => {
+          const rowValue: RecordData = {};
+          for (const [innerCode, innerField] of Object.entries(row.value ?? {})) {
+            if (NON_SAVABLE_TYPES.has(innerField.type) || copyTargets.has(innerCode)) {
+              continue;
+            }
+            rowValue[innerCode] = innerField;
+          }
+          return { id: row.id, value: rowValue };
+        }),
+      };
+      continue;
+    }
     snapshot[code] = field;
   }
   return snapshot;

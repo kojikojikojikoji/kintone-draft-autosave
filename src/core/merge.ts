@@ -1,4 +1,9 @@
-import { collectLookupFields, formFieldTypes } from "./fields";
+import {
+  NON_SAVABLE_TYPES,
+  collectLookupCopyTargets,
+  collectLookupFields,
+  formFieldTypes,
+} from "./fields";
 import type { FormFields, RecordData, SubtableRow } from "./types";
 
 export interface MergeResult {
@@ -35,13 +40,31 @@ export function mergeDraftIntoRecord(
       continue;
     }
     if (draftField.type === "SUBTABLE" && Array.isArray(draftField.value)) {
+      const innerDefs = formFields[code]?.fields ?? {};
+      const copyTargets = collectLookupCopyTargets(formFields);
+      const skippedInner = new Set<string>();
       merged[code] = {
         type: "SUBTABLE",
-        value: (draftField.value as SubtableRow[]).map((row) => ({
+        value: (draftField.value as SubtableRow[]).map((row) => {
+          const rowValue: RecordData = {};
+          for (const [innerCode, innerField] of Object.entries(row.value ?? {})) {
+            const innerDef = innerDefs[innerCode];
+            // Inner fields go through the same gate as top-level ones:
+            // present on the form, same type, savable, not a lookup copy-target.
+            if (!innerDef || innerDef.type !== innerField.type) {
+              skippedInner.add(`${code}.${innerCode}`);
+              continue;
+            }
+            if (NON_SAVABLE_TYPES.has(innerField.type) || copyTargets.has(innerCode)) {
+              continue;
+            }
+            rowValue[innerCode] = innerField;
+          }
           // No id: every restored row is a new row.
-          value: row.value ?? {},
-        })),
+          return { value: rowValue };
+        }),
       };
+      skipped.push(...skippedInner);
     } else {
       merged[code] = { type: draftField.type, value: draftField.value };
     }
