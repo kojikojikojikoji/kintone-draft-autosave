@@ -1,0 +1,131 @@
+:root {
+  --kp-text: #1f2933;
+  --kp-text-sub: #5f6b7a;
+  --kp-bg: #ffffff;
+  --kp-bg-section: #f7f8fa;
+  --kp-border: #d5dbe1;
+  --kp-primary: #0f6db3;
+  --kp-primary-hover: #0b578f;
+  --kp-danger: #b3261e;
+  --kp-focus: #0f6db3;
+  --kp-radius: 6px;
+  --kp-space: 8px;
+  --kp-font: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic UI",
+    "Yu Gothic", Meiryo, sans-serif;
+}
+
+.kp-das-config {
+  font-family: var(--kp-font);
+  color: var(--kp-text);
+  background: var(--kp-bg-section);
+  margin: 0;
+  padding: 24px;
+}
+
+.kp-das-config__inner {
+  max-width: 800px;
+  margin: 0;
+}
+
+.kp-das-config h1 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 4px;
+}
+
+.kp-das-config__lead {
+  font-size: 13px;
+  color: var(--kp-text-sub);
+  margin: 0 0 16px;
+}
+
+.kp-das-card {
+  background: var(--kp-bg);
+  border: 1px solid var(--kp-border);
+  border-radius: var(--kp-radius);
+  padding: 24px;
+  margin-bottom: 16px;
+}
+
+.kp-das-card__title {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 16px;
+}
+
+.kp-das-field {
+  margin-bottom: 24px;
+}
+.kp-das-field:last-child {
+  margin-bottom: 0;
+}
+
+.kp-das-field__label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.kp-das-field__desc {
+  font-size: 12px;
+  color: var(--kp-text-sub);
+  margin: 8px 0 0;
+}
+
+.kp-das-radios {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.kp-das-radio {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.kp-das-radio input {
+  margin: 0;
+}
+
+.kp-das-bar {
+  position: sticky;
+  bottom: 0;
+  background: var(--kp-bg);
+  border-top: 1px solid var(--kp-border);
+  padding: 12px 24px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin: 0 -24px -24px;
+}
+
+.kp-das-btn {
+  font: inherit;
+  cursor: pointer;
+  border-radius: var(--kp-radius);
+  padding: 8px 16px;
+  border: 1px solid var(--kp-border);
+  background: var(--kp-bg);
+  color: var(--kp-text);
+}
+.kp-das-btn:focus-visible {
+  outline: 2px solid var(--kp-focus);
+  outline-offset: 2px;
+}
+.kp-das-btn--primary {
+  background: var(--kp-primary);
+  border-color: var(--kp-primary);
+  color: #fff;
+}
+.kp-das-btn--primary:hover {
+  background: var(--kp-primary-hover);
+}
+.kp-das-btn--text {
+  border-color: transparent;
+  background: transparent;
+  color: var(--kp-primary);
+}
