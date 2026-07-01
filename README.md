@@ -1,5 +1,7 @@
 # kintone-draft-autosave
 
+Documentation in Japanese: [README.ja.md](./README.ja.md)
+
 Auto-save what you type on a record create or edit screen, and restore it after the tab is closed, the session expires, or the browser crashes. kintone does not keep unsaved edits on the server, so a lost screen means retyping a long report or a many-row subtable. This plugin takes a snapshot of the form on a timer (5 seconds by default) and writes it to the browser's localStorage only when the content changed. Nothing is sent to an external server.
 
 Works on desktop and mobile, for create and edit screens (including "reuse record", treated as create).
