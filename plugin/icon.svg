@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56" role="img" aria-label="Draft autosave">
+  <!-- A document with lines and a clockwise refresh arc: an autosaved draft. -->
+  <g fill="none" stroke="#0f6db3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M16 8 h16 l8 8 v22 a2 2 0 0 1 -2 2 H16 a2 2 0 0 1 -2 -2 V10 a2 2 0 0 1 2 -2 z" />
+    <path d="M32 8 v8 h8" />
+    <line x1="19" y1="20" x2="29" y2="20" />
+    <line x1="19" y1="26" x2="33" y2="26" />
+    <path d="M22 40 a8 8 0 1 0 3 -6" />
+    <path d="M23 34 v5 h5" />
+  </g>
+</svg>

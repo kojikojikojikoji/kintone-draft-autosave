@@ -1,0 +1,32 @@
+{
+  "manifest_version": 2,
+  "version": 1,
+  "type": "APP",
+  "name": {
+    "en": "Draft Autosave",
+    "ja": "下書き自動保存"
+  },
+  "description": {
+    "en": "Auto-save record create and edit input to the browser and restore it after a tab is closed. No external transmission.",
+    "ja": "作成・編集画面の入力を自動保存し、タブを閉じても復元できるようにします。外部送信はありません。"
+  },
+  "icon": "icon.png",
+  "homepage_url": {
+    "en": "https://github.com/kojimiyazawa/kintone-draft-autosave",
+    "ja": "https://github.com/kojimiyazawa/kintone-draft-autosave"
+  },
+  "desktop": {
+    "js": ["desktop.js"],
+    "css": []
+  },
+  "mobile": {
+    "js": ["mobile.js"],
+    "css": []
+  },
+  "config": {
+    "html": "config.html",
+    "js": ["config.js"],
+    "css": [],
+    "required_params": []
+  }
+}
