@@ -17,7 +17,7 @@ const draftSchema = z.object({
   recordId: z.string().nullable(),
   userCode: z.string(),
   recordUpdatedTime: z.string().nullable(),
-  fields: z.record(fieldValueSchema),
+  fields: z.record(z.string(), fieldValueSchema),
 });
 
 export type ParseResult = { ok: true; draft: Draft } | { ok: false; reason: "json" | "schema" };
